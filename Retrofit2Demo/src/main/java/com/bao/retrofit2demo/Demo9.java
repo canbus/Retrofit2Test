@@ -65,7 +65,33 @@ public class Demo9 {
                     public void onError(Throwable e) { System.out.println(e.toString());}
                 });
 
+            /* retrofix2 + rxjava2 用法：
+            //https://api.douban.com/v2/movie/top250?start=0&count=2
+    public void getTopMove250(DisposableObserver<Top250SubjectEntry.Subject> disposableObserver,int start,int count){
+        moviceService.getTop250(start,count)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())//AndroidSchedulers.mainThread())
+                .map(new Function<Top250SubjectEntry, List<Top250SubjectEntry.Subject>>() {
+                    @Override
+                    public List<Top250SubjectEntry.Subject> apply(Top250SubjectEntry top250SubjectEntry) throws Exception {
+                        return top250SubjectEntry.getSubjects();
+                    }
+                })
+                .flatMap(new Function<List<Top250SubjectEntry.Subject>, ObservableSource<Top250SubjectEntry.Subject>>() {
+                    @Override
+                    public ObservableSource<Top250SubjectEntry.Subject> apply(List<Top250SubjectEntry.Subject> subjects) throws Exception {
+                        return Observable.fromIterable(subjects);
+                    }
+                })
+                .subscribe(new DisposableObserver<Top250SubjectEntry.Subject>() {
+                    public void onNext(Top250SubjectEntry.Subject subject) {}
+                    public void onError(Throwable e) {}
+                    public void onComplete() {
 
+                    }
+                });
+            
+            */
 
     }
 
